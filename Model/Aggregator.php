@@ -56,11 +56,14 @@ class Aggregator extends Model {
 	}
 	
 	public function afterFind($results = array(), $primary) {
-		$rfc822 = 'd M Y H:i:s T';
+		$rfc822 = 'd M Y H:i:s T'; // Moreover Newsdesk
+		
 		if (!empty($results)) {
 			foreach ($results as &$result) {
 				if ($time = DateTime::createFromFormat($rfc822, $result['date'].'C')) {
 					$result['date'] = $time->format('Y-m-d H:i:s');
+				} elseif ($time = strtotime($result['date'])) {
+					$result['date'] = gmstrftime('%Y-%m-%d %H:%M:%S', $time);
 				}
 			}
 		}
