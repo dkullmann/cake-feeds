@@ -60,10 +60,12 @@ class Aggregator extends Model {
 		
 		if (!empty($results)) {
 			foreach ($results as &$result) {
-				if ($time = DateTime::createFromFormat($rfc822, $result['date'].'C')) {
-					$result['date'] = $time->format('Y-m-d H:i:s');
-				} elseif ($time = strtotime($result['date'])) {
-					$result['date'] = gmstrftime('%Y-%m-%d %H:%M:%S', $time);
+				if (!empty($result['date'])) {
+					if ($time = DateTime::createFromFormat($rfc822, $result['date'].'C')) {
+						$result['date'] = $time->format('Y-m-d H:i:s');
+					} elseif ($time = strtotime($result['date'])) {
+						$result['date'] = gmstrftime('%Y-%m-%d %H:%M:%S', $time);
+					}
 				}
 			}
 		}
