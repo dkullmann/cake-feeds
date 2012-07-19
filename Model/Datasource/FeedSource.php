@@ -138,9 +138,11 @@ class FeedSource extends DataSource {
 
 			// Request and parse feeds
 			foreach ($query['conditions'] as $source => $url) {
+				
 				$cacheKey = $model->name .'_'. md5($url);
-
-				$this->_feeds[$url] = Cache::read($cacheKey, 'feeds');
+				if ($cache) {
+					$this->_feeds[$url] = Cache::read($cacheKey, 'feeds');	
+				}
 
 				if (empty($this->_feeds[$url])) {
 					$response = $this->Http->get($url);
