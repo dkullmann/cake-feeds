@@ -260,6 +260,10 @@ class FeedSource extends DataSource {
 
 		// Loop the feed
 		if (!empty($items) && is_array($items)) {
+			$key = key($items);
+			if (!is_numeric($key) && $key !== 'channel') {
+				$items = array($items);
+			}
 			foreach ($items as $item) {
 				$data = array();
 
